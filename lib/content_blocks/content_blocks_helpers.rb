@@ -1,6 +1,14 @@
 module ContentBlocks
   module ContentBlocksHelpers
 
+    def text_block(name, text, level = :shared)
+      content_block name, text, nil, "text", level
+    end
+
+    def image_block(name, image_path, level = :shared)
+      content_block( name, image_path, nil, "image", level ).image
+    end
+
     def title_block(name, title, content, link = nil, level = :page, &block)
       page_id, section_id = define_level level
 
