@@ -125,7 +125,7 @@ module ContentBlocks
       when :section
         section = @section || Section.from_controller( params[:controller] )
       when :shared
-        section = @section || Section.where( name: "Shared" ).first
+        section = Section.where( name: "Shared" ).first
       end
 
       page_id = nil
