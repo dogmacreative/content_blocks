@@ -28,6 +28,23 @@ module ContentBlocks
     end
 
     def content_block(name, content = nil, link = nil, type = "simple", level = :page, &block)
+
+      title = nil
+
+      if name.class == Hash
+        args = name
+
+        name = args[:name]
+        content = args[:content] unless args[:content].nil?
+        link = args[:link] unless args[:link].nil?
+        type = args[:type] unless args[:type].nil?
+        level = args[:level] unless args[:level].nil?
+        title = args[:title].nil? ? name : args[:title]
+
+      end
+
+      type = type.to_s if type.class == Symbol
+
       page_id, section_id = define_level level
 
       image_or_content = type == "image" ? :image : :content
@@ -35,6 +52,7 @@ module ContentBlocks
       content_block = ContentBlock
         .where( name: name, page_id: page_id, section_id: section_id )
         .first_or_create!(
+          title: title,
           image_or_content => content,
           :link => link,
           :content_type => type
